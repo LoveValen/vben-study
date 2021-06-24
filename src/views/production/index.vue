@@ -13,7 +13,7 @@
     </a-card>
 
     <!-- 表格 -->
-    <div class="">
+    <div class="!my-4">
       <a-card hoverable class="enter-y" title="商品表格">
         <a-table :columns="columns" :data-source="data">
           <template #name="{ text }">
