@@ -9,7 +9,7 @@ const erabbit: AppRouteModule = {
   },
   children: [
     {
-      path: '',
+      path: 'home',
       name: 'Erabbit',
       component: () => import('/@/views/erabbit/home.vue'),
       meta: {

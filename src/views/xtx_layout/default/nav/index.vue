@@ -67,8 +67,6 @@
           align-items: center;
           height: 20px;
           border-left: 1px solid #eee;
-          // padding-left: 20px;
-          // margin-right: 20px;
           font-size: 14px;
           &:first-child {
             border-left: none;
