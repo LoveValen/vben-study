@@ -7,38 +7,36 @@ const production: AppRouteModule = {
   path: '/production',
   name: 'production',
   component: LAYOUT,
-  redirect: '/production/erabbit',
   meta: {
     icon: 'ion:grid-outline',
     title: t('routes.production.production'),
   },
   children: [
     // {
-    //   path: 'index',
-    //   name: 'Erabbit-PC',
-    //   component: () => import('/@/views/production/index.vue'),
+    //   path: '',
+    //   name: 'detail',
+    //   component: () => import('/@/views/xtx_layout/index.vue'),
     //   meta: {
-    //     title: '小兔仙儿PC端入口',
+    //     title: '小兔仙儿',
     //   },
+    //   children: [
+    //     {
+    //       path: 'erabbit',
+    //       name: 'Erabbit',
+    //       component: () => import('/@/views/production/detail.vue'),
+    //       meta: {
+    //         title: '小兔仙儿首页',
+    //       },
+    //     },
+    //   ],
     // },
     {
-      path: 'erabbit',
-      name: 'detail',
-      component: () => import('/@/views/xtx_layout/index.vue'),
-      // redirect: '/production/erabbit/index',
+      path: 'index',
+      name: 'Erabbit-PC',
+      component: () => import('/@/views/production/index.vue'),
       meta: {
-        title: '小兔仙儿',
+        title: '小兔仙儿PC端入口',
       },
-      children: [
-        {
-          path: 'index',
-          name: 'Erabbit',
-          component: () => import('/@/views/production/detail.vue'),
-          meta: {
-            title: '小兔仙儿首页',
-          },
-        },
-      ],
     },
   ],
 };

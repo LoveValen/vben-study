@@ -6,15 +6,15 @@
   import { defineComponent, reactive, toRefs } from 'vue';
   export default defineComponent({
     setup() {
-      // const state = reactive({ count: 0 });
+      const state = reactive({ count: 0 });
 
       function hendleClick() {
-        //   state.count++;
-        //   console.log(state);
+        state.count++;
+        console.log(state);
       }
 
       return {
-        // ...toRefs(state),
+        ...toRefs(state),
         hendleClick,
       };
     },

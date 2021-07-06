@@ -49,9 +49,10 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+  import { useRouter } from 'vue-router';
   const columns = [
     {
       dataIndex: 'name',
@@ -113,13 +114,13 @@
     },
 
     setup() {
-      const { ctx: _this } = getCurrentInstance() as any;
       const loading = ref(true);
+      const router = useRouter();
 
       function handleClick() {
-        console.log(_this);
-        console.log(_this.$route);
-        _this.$router.push({ path: '/production/erabbit/index' });
+        router.push({
+          path: '/erabbit',
+        });
       }
 
       setTimeout(() => {

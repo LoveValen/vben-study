@@ -3,7 +3,7 @@ import { t } from '/@/hooks/web/useI18n';
 
 const production: MenuModule = {
   menu: {
-    path: '/production/erabbit',
+    path: '/production/index',
     icon: 'ion:grid-outline',
     name: t('routes.production.production'),
   },
