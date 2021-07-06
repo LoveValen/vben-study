@@ -1,14 +1,8 @@
 <template>
   <PageWrapper>
+    <a-button type="primary" @click="handleClick"> 点击跳转到详情页 </a-button>
     <a-card hoverable class="enter-y">
       <h1> 商品管理 </h1>
-      <!-- <a-card-meta title="Card title" description="This is the description">
-        <template #avatar>
-          <a-avatar
-            src="https://avatars.githubusercontent.com/u/42991514?s=400&u=db92068f4c716cb82dd4737ea5d4848408188abe&v=4"
-          />
-        </template>
-      </a-card-meta> -->
       <div> </div>
     </a-card>
 
@@ -55,7 +49,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
   const columns = [
@@ -110,14 +104,23 @@
       tags: ['cool', 'teacher'],
     },
   ];
+
   export default defineComponent({
     components: {
       PageWrapper,
       SmileOutlined,
       DownOutlined,
     },
+
     setup() {
+      const { ctx: _this } = getCurrentInstance() as any;
       const loading = ref(true);
+
+      function handleClick() {
+        console.log(_this);
+        console.log(_this.$route);
+        _this.$router.push({ path: '/production/erabbit/index' });
+      }
 
       setTimeout(() => {
         loading.value = false;
@@ -126,6 +129,7 @@
         loading,
         columns,
         data,
+        handleClick,
       };
     },
   });
