@@ -108,7 +108,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import '/@/design/xtx_pc/variables.less';
+  // @import '/@/design/xtx_pc/variables.less';
   .app-header {
     background-color: #fff;
     .container {
@@ -164,7 +164,7 @@
         left: 0;
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: flex-start;
         width: 100%;
         height: 0px;
         background: #fff;

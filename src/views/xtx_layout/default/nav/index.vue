@@ -1,5 +1,5 @@
 <template>
-  <nav class="app-topnav">
+  <nav class="app-top-nav">
     <div class="container">
       <ul class="container_content">
         <li v-for="value in navList" :key="value.id">
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, onMounted } from 'vue';
 
   const navList = [
     {
@@ -46,6 +46,13 @@
 
   export default defineComponent({
     setup() {
+      onMounted(() => {
+        let i = document.createElement('i');
+        i.classList.add('iconfont', 'icon-phone');
+        i.style.color = '#fff';
+        let liList = document.querySelectorAll('.container_content > li');
+        liList[liList.length - 1].prepend(i);
+      });
       return {
         navList,
       };
@@ -54,7 +61,7 @@
 </script>
 
 <style lang="less" scoped>
-  .app-topnav {
+  .app-top-nav {
     background: #333;
     .container {
       &_content {
@@ -74,6 +81,12 @@
           a {
             padding: 0 15px;
             color: #fff;
+          }
+          &:last-child {
+            padding-left: 3px;
+            a {
+              padding-left: 2px;
+            }
           }
         }
       }
