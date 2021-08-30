@@ -119,7 +119,7 @@
 
       function handleClick() {
         router.push({
-          path: '/erabbit/home',
+          path: '/erabbit',
         });
       }
 

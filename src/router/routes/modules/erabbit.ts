@@ -9,9 +9,9 @@ const erabbit: AppRouteModule = {
   },
   children: [
     {
-      path: 'home',
+      path: '',
       name: 'Erabbit',
-      component: () => import('/@/views/erabbit/home.vue'),
+      component: () => import('/@/views/erabbit/home/home.vue'),
       meta: {
         title: '小兔仙儿首页',
       },

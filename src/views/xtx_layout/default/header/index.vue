@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="container">
       <h1 class="app-logo">
-        <RouterLink :to="{ path: '/erabbit/home' }">小兔仙儿</RouterLink>
+        <RouterLink :to="{ path: '/erabbit' }">小兔仙儿</RouterLink>
       </h1>
       <ul class="app-header-nav">
         <li v-for="value in navList" :key="value.id">
@@ -89,11 +89,11 @@
     setup() {
       let showHeader = ref(false);
       const enterHandler = function (id: number): void {
-        if(id === 0) return
+        if (id === 0) return;
         showHeader.value = true;
       };
       const leaveHandler = function (id: number): void {
-        if(id === 0) return
+        if (id === 0) return;
         showHeader.value = false;
       };
       return {

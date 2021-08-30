@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <Nav />
     <Header />
     <!-- 单个元素 -->
