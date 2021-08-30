@@ -5,6 +5,10 @@
       <h1> 商品管理 </h1>
       <div ref="chartRef" :style="{ width, height }"></div>
     </a-card>
+    <div>
+      <h1>标签：</h1>
+      <input type="text" v-model.number="inputText" @input="handlerInput" />
+    </div>
 
     <!-- 表格 -->
     <div class="!my-4">
@@ -49,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs, Ref, ref } from 'vue';
 import { PageWrapper } from '/@/components/Page';
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
@@ -129,14 +133,28 @@ export default defineComponent({
     const loading = ref(true);
     const router = useRouter();
 
+    const state = reactive({
+      inputText: '',
+    });
+
     const chartRef = ref<HTMLDivElement | null>(null);
     const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
-    function handleClick() {
-      router.push({
-        path: '/erabbit/home',
-      });
-    }
+    const eventObj = {
+      handleClick: () => {
+        router.push({
+          path: '/erabbit/home',
+        });
+      },
+      handlerInput: (e) => {
+        console.log('输入的值-->', e.data);
+        if (/^[0-9]*$/.test(e.data)) {
+          state.inputText += e.data;
+        } else {
+          state.inputText = state.inputText.replace(e.data, '');
+        }
+      },
+    };
 
     onMounted(() => {
       setOptions({
@@ -253,7 +271,8 @@ export default defineComponent({
       columns,
       data,
       chartRef,
-      handleClick,
+      ...eventObj,
+      ...toRefs(state),
     };
   },
 });
