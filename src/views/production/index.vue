@@ -6,6 +6,13 @@
       <div ref="chartRef" :style="{ width, height }"></div>
     </a-card>
 
+    <div>
+      <h1>输入框：</h1>
+      <input type="text" v-model="modelValue" />
+      <input type="text" @input="handlerInput" />
+      <h1>{{ modelValue }}</h1>
+    </div>
+
     <!-- 表格 -->
     <div class="!my-4">
       <a-card hoverable class="enter-y" title="商品表格">
@@ -49,222 +56,253 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from 'vue';
-import { PageWrapper } from '/@/components/Page';
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { useRouter } from 'vue-router';
-import { useECharts } from '/@/hooks/web/useECharts';
-const columns = [
-  {
-    dataIndex: 'name',
-    key: 'name',
-    slots: { title: 'customTitle', customRender: 'name' },
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    slots: { customRender: 'tags' },
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    slots: { customRender: 'action' },
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-
-export default defineComponent({
-  components: {
-    PageWrapper,
-    SmileOutlined,
-    DownOutlined,
-  },
-
-  props: {
-    width: {
-      type: String as PropType<string>,
-      default: '100%',
+  import { defineComponent, onMounted, reactive, Ref, ref, toRefs, watch } from 'vue';
+  import { PageWrapper } from '/@/components/Page';
+  import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+  import { useRouter } from 'vue-router';
+  import { useECharts } from '/@/hooks/web/useECharts';
+  const columns = [
+    {
+      dataIndex: 'name',
+      key: 'name',
+      slots: { title: 'customTitle', customRender: 'name' },
     },
-    height: {
-      type: String as PropType<string>,
-      default: '300px',
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
     },
-  },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+      slots: { customRender: 'tags' },
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      slots: { customRender: 'action' },
+    },
+  ];
 
-  setup() {
-    const loading = ref(true);
-    const router = useRouter();
+  const data = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      tags: ['nice', 'developer'],
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+      tags: ['loser'],
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+      tags: ['cool', 'teacher'],
+    },
+  ];
 
-    const chartRef = ref<HTMLDivElement | null>(null);
-    const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+  export default defineComponent({
+    components: {
+      PageWrapper,
+      SmileOutlined,
+      DownOutlined,
+    },
 
-<<<<<<< HEAD
-      function handleClick() {
-        router.push({
-          path: '/erabbit',
-        });
-      }
-=======
-    function handleClick() {
-      router.push({
-        path: '/erabbit/home',
+    props: {
+      width: {
+        type: String as PropType<string>,
+        default: '100%',
+      },
+      height: {
+        type: String as PropType<string>,
+        default: '300px',
+      },
+    },
+
+    setup() {
+      const loading = ref(true);
+      const router = useRouter();
+      const state = reactive({
+        modelValue: '',
       });
-    }
->>>>>>> 0504f81da10f159597d91e1d9cde092060a12a59
 
-    onMounted(() => {
-      setOptions({
-        title: {
-          text: '堆叠区域图',
+      const chartRef = ref<HTMLDivElement | null>(null);
+      const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+
+      // 侦听器
+      // watch(
+      //   () => state.modelValue,
+      //   // state,
+      //   (newVal) => {
+      //     console.log('输入框的值-->', newVal);
+      //     if (/^[0-9]*$/.test(newVal)) {
+      //       state.modelValue = newVal;
+      //     } else {
+      //       state.modelValue = newVal.replace(newVal, '');
+      //     }
+      //     console.log(state.modelValue);
+      //   }
+      //   // {
+      //   // 深度监听
+      //   //   deep: true,
+      //   // 立即监听
+      //   //   immediate: true,
+      //   // }
+      // );
+
+      // 事件处理函数
+      const eventObj = {
+        handleClick() {
+          router.push({
+            path: '/erabbit/home',
+          });
         },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985',
+        handlerInput(e) {
+          console.log('输入框输出值-->', e.data);
+          let val;
+          if (/^[0-9]*$/.test(e.data)) {
+            val = e.data;
+          } else {
+            val = e.data ? e.data.replace(e.data, '') : '';
+          }
+          state.modelValue += val;
+          console.log(state.modelValue);
+        },
+      };
+
+      onMounted(() => {
+        setOptions({
+          title: {
+            text: '堆叠区域图',
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985',
+              },
             },
           },
-        },
-        legend: {
-          data: [
+          legend: {
+            data: [
+              {
+                name: '直接访问',
+                // 强制设置图形为圆。
+                icon: 'circle',
+                itemStyle: {
+                  color: 'red',
+                },
+                lineStyle: {},
+              },
+              {
+                name: '联盟广告',
+                // 强制设置图形为圆。
+                icon: 'circle',
+                itemStyle: {
+                  color: 'yellow',
+                },
+              },
+              {
+                name: '视频广告',
+                // 强制设置图形为圆。
+                icon: 'circle',
+                itemStyle: {
+                  color: 'green',
+                },
+              },
+            ],
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true,
+          },
+          xAxis: [
+            {
+              type: 'category',
+              boundaryGap: false,
+              data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+            },
+          ],
+          yAxis: [
+            {
+              type: 'value',
+            },
+          ],
+          series: [
             {
               name: '直接访问',
-              // 强制设置图形为圆。
-              icon: 'circle',
-              itemStyle: {
-                color: 'red',
+              type: 'line',
+              stack: '总量',
+              areaStyle: {
+                color: 'green',
               },
-              lineStyle: {},
+              emphasis: {
+                focus: 'series',
+              },
+              data: [0, 332, 301, 334, 390, 330, 320],
             },
             {
               name: '联盟广告',
-              // 强制设置图形为圆。
-              icon: 'circle',
-              itemStyle: {
+              type: 'line',
+              stack: '总量',
+              areaStyle: {
                 color: 'yellow',
               },
+              emphasis: {
+                focus: 'series',
+              },
+              data: [0, 182, 191, 234, 290, 330, 310],
             },
             {
               name: '视频广告',
-              // 强制设置图形为圆。
-              icon: 'circle',
-              itemStyle: {
-                color: 'green',
+              type: 'line',
+              stack: '总量',
+              areaStyle: {
+                color: 'red',
               },
+              emphasis: {
+                focus: 'series',
+              },
+              data: [0, 232, 201, 154, 190, 330, 410],
             },
           ],
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {},
-          },
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
-        },
-        xAxis: [
-          {
-            type: 'category',
-            boundaryGap: false,
-            data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-          },
-        ],
-        yAxis: [
-          {
-            type: 'value',
-          },
-        ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {
-              color: 'green',
-            },
-            emphasis: {
-              focus: 'series',
-            },
-            data: [0, 332, 301, 334, 390, 330, 320],
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {
-              color: 'yellow',
-            },
-            emphasis: {
-              focus: 'series',
-            },
-            data: [0, 182, 191, 234, 290, 330, 310],
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {
-              color: 'red',
-            },
-            emphasis: {
-              focus: 'series',
-            },
-            data: [0, 232, 201, 154, 190, 330, 410],
-          },
-        ],
+        });
       });
-    });
 
-    setTimeout(() => {
-      loading.value = false;
-    }, 1500);
-    return {
-      loading,
-      columns,
-      data,
-      chartRef,
-      handleClick,
-    };
-  },
-});
+      setTimeout(() => {
+        loading.value = false;
+      }, 1500);
+      return {
+        loading,
+        columns,
+        data,
+        chartRef,
+        ...toRefs(state),
+        ...eventObj,
+      };
+    },
+  });
 </script>
 
 <style></style>
