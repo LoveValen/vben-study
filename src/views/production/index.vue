@@ -9,7 +9,7 @@
     <div>
       <h1>输入框：</h1>
       <input type="text" v-model="modelValue" />
-      <input type="text" @input="handlerInput" />
+      <!-- <input type="text" :value="modelValue" @keyup="handlerInput" /> -->
       <h1>{{ modelValue }}</h1>
     </div>
 
@@ -143,25 +143,25 @@
       const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
       // 侦听器
-      // watch(
-      //   () => state.modelValue,
-      //   // state,
-      //   (newVal) => {
-      //     console.log('输入框的值-->', newVal);
-      //     if (/^[0-9]*$/.test(newVal)) {
-      //       state.modelValue = newVal;
-      //     } else {
-      //       state.modelValue = newVal.replace(newVal, '');
-      //     }
-      //     console.log(state.modelValue);
-      //   }
-      //   // {
-      //   // 深度监听
-      //   //   deep: true,
-      //   // 立即监听
-      //   //   immediate: true,
-      //   // }
-      // );
+      watch(
+        () => state.modelValue,
+        // state,
+        (newVal, oldVal) => {
+          console.log('输入框的值-->', newVal);
+          if (/^[0-9]*$/.test(newVal)) {
+            state.modelValue = newVal;
+          } else {
+            state.modelValue = newVal.substr(0, oldVal.length);
+          }
+          console.log(state.modelValue);
+        }
+        // {
+        // 深度监听
+        //   deep: true,
+        // 立即监听
+        //   immediate: true,
+        // }
+      );
 
       // 事件处理函数
       const eventObj = {
@@ -170,17 +170,17 @@
             path: '/erabbit/home',
           });
         },
-        handlerInput(e) {
-          console.log('输入框输出值-->', e.data);
-          let val;
-          if (/^[0-9]*$/.test(e.data)) {
-            val = e.data;
-          } else {
-            val = e.data ? e.data.replace(e.data, '') : '';
-          }
-          state.modelValue += val;
-          console.log(state.modelValue);
-        },
+        // handlerInput(e) {
+        //   console.log('输入框输出值-->', e);
+        //   let val;
+        //   if (/^[0-9]*$/.test(e.key)) {
+        //     val = e.key;
+        //   } else {
+        //     val = e.key ? e.key.replace(e.key, '') : '';
+        //   }
+        //   state.modelValue += val;
+        //   console.log(state.modelValue);
+        // },
       };
 
       onMounted(() => {
