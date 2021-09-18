@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs, Ref, ref } from 'vue';
+import { defineComponent, onMounted, onBeforeUnmount, reactive, toRefs, Ref, ref } from 'vue';
 import { PageWrapper } from '/@/components/Page';
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
@@ -153,6 +153,9 @@ export default defineComponent({
         } else {
           state.inputText = state.inputText.replace(e.data, '');
         }
+      },
+      pageResize: () => {
+        console.log('当前窗口宽度-->', document.body.scrollWidth);
       },
     };
 
@@ -261,6 +264,12 @@ export default defineComponent({
           },
         ],
       });
+      window.onresize = () => {
+        eventObj.pageResize();
+      };
+    });
+    onBeforeUnmount(() => {
+      window.onresize = null;
     });
 
     setTimeout(() => {
