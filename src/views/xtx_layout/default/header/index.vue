@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="container">
       <h1 class="app-logo">
-        <RouterLink :to="{ path: '/erabbit/home' }">小兔仙儿</RouterLink>
+        <RouterLink :to="{ path: '/erabbit' }">小兔仙儿</RouterLink>
       </h1>
       <ul class="app-header-nav">
         <li v-for="value in navList" :key="value.id">
@@ -37,6 +37,76 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
+  import { defineComponent, ref } from 'vue';
+  import { SearchOutlined } from '@ant-design/icons-vue';
+  import cartSvg from '/@/assets/svg/cart.svg';
+  const navList = [
+    {
+      id: 0,
+      text: '首页',
+    },
+    {
+      id: 1,
+      text: '美食',
+    },
+    {
+      id: 2,
+      text: '餐厨',
+    },
+    {
+      id: 3,
+      text: '艺术',
+    },
+    {
+      id: 4,
+      text: '电器',
+    },
+    {
+      id: 5,
+      text: '居家',
+    },
+    {
+      id: 6,
+      text: '洗护',
+    },
+    {
+      id: 7,
+      text: '孕婴',
+    },
+    {
+      id: 8,
+      text: '服装',
+    },
+    {
+      id: 9,
+      text: '杂项',
+    },
+  ];
+  export default defineComponent({
+    components: {
+      SearchOutlined,
+    },
+    setup() {
+      let showHeader = ref(false);
+      const enterHandler = function (id: number): void {
+        if (id === 0) return;
+        showHeader.value = true;
+      };
+      const leaveHandler = function (id: number): void {
+        if (id === 0) return;
+        showHeader.value = false;
+      };
+      return {
+        navList,
+        cartSvg,
+        showHeader,
+        enterHandler,
+        leaveHandler,
+      };
+    },
+  });
+=======
 import { defineComponent, ref } from 'vue';
 import { SearchOutlined } from '@ant-design/icons-vue';
 import cartSvg from '/@/assets/svg/cart.svg';
@@ -105,6 +175,7 @@ export default defineComponent({
     };
   },
 });
+>>>>>>> 0504f81da10f159597d91e1d9cde092060a12a59
 </script>
 
 <style lang="less" scoped>

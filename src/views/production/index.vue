@@ -10,6 +10,13 @@
       <input type="text" v-model.number="inputText" @input="handlerInput" />
     </div>
 
+    <div>
+      <h1>输入框：</h1>
+      <input type="text" v-model="modelValue" />
+      <!-- <input type="text" :value="modelValue" @keyup="handlerInput" /> -->
+      <h1>{{ modelValue }}</h1>
+    </div>
+
     <!-- 表格 -->
     <div class="!my-4">
       <a-card hoverable class="enter-y" title="商品表格">
@@ -53,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, reactive, toRefs, Ref, ref } from 'vue';
+import { defineComponent, onMounted, reactive, Ref, ref, toRefs, watch } from 'vue';
 import { PageWrapper } from '/@/components/Page';
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
@@ -132,31 +139,52 @@ export default defineComponent({
   setup() {
     const loading = ref(true);
     const router = useRouter();
-
     const state = reactive({
-      inputText: '',
+      modelValue: '',
     });
 
     const chartRef = ref<HTMLDivElement | null>(null);
     const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
+    // 侦听器
+    watch(
+      () => state.modelValue,
+      // state,
+      (newVal, oldVal) => {
+        console.log('输入框的值-->', newVal);
+        if (/^[0-9]*$/.test(newVal)) {
+          state.modelValue = newVal;
+        } else {
+          state.modelValue = newVal.substr(0, oldVal.length);
+        }
+        console.log(state.modelValue);
+      }
+      // {
+      // 深度监听
+      //   deep: true,
+      // 立即监听
+      //   immediate: true,
+      // }
+    );
+
+    // 事件处理函数
     const eventObj = {
-      handleClick: () => {
+      handleClick() {
         router.push({
           path: '/erabbit/home',
         });
       },
-      handlerInput: (e) => {
-        console.log('输入的值-->', e.data);
-        if (/^[0-9]*$/.test(e.data)) {
-          state.inputText += e.data;
-        } else {
-          state.inputText = state.inputText.replace(e.data, '');
-        }
-      },
-      pageResize: () => {
-        console.log('当前窗口宽度-->', document.body.scrollWidth);
-      },
+      // handlerInput(e) {
+      //   console.log('输入框输出值-->', e);
+      //   let val;
+      //   if (/^[0-9]*$/.test(e.key)) {
+      //     val = e.key;
+      //   } else {
+      //     val = e.key ? e.key.replace(e.key, '') : '';
+      //   }
+      //   state.modelValue += val;
+      //   console.log(state.modelValue);
+      // },
     };
 
     onMounted(() => {
@@ -264,12 +292,6 @@ export default defineComponent({
           },
         ],
       });
-      window.onresize = () => {
-        eventObj.pageResize();
-      };
-    });
-    onBeforeUnmount(() => {
-      window.onresize = null;
     });
 
     setTimeout(() => {
@@ -280,8 +302,8 @@ export default defineComponent({
       columns,
       data,
       chartRef,
-      ...eventObj,
       ...toRefs(state),
+      ...eventObj,
     };
   },
 });
